@@ -2,6 +2,7 @@ package com.kushwaha.Covid19Tracker.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,7 @@ public class Covid19DataService {
 	private Map<String, StateData> stateMap = new HashMap<String, StateData>();
 
 	@PostConstruct
-	@Scheduled(cron = "* 5 * * * *")
+	@Scheduled(cron = "0 */15 * * * *")
 	public void getCovid19Data() {
 		String jsonString = restTemplate.getForObject("https://api.covid19india.org/data.json", String.class);
 
@@ -69,19 +70,25 @@ public class Covid19DataService {
 
 			this.totalCases = stateDataList.remove(0);
 
-		// this will give you remaining list after removing 1st elemnt 
+		// this will give you remaining list after removing 1st element 
 		//	this.stateDataWithoutTotal = stateDataList.stream().skip(1).collect(Collectors.toList());
 
+			System.out.println("Satrt time -->" + new Date());	
+			
 			System.out.println(stateDataList.get(1).getState());
 			System.out.println("Confirmed cases :  " + stateDataList.get(1).getConfirmed());
 
 			System.out.println(stateDataList.size());
 			System.out.println(stateMap.size());
 
-			for (Entry<String, StateData> state : stateMap.entrySet()) {
-				System.out.println("State code :" + " " + state.getKey() + "," + "State Data: " + state.getValue());
-
-			}
+			/*
+			 * this will print entire map having state list
+			 * for (Entry<String, StateData> state : stateMap.entrySet()) {
+			 * System.out.println("State code :" + " " + state.getKey() + "," +
+			 * "State Data: " + state.getValue());
+			 * 
+			 * }
+			 */
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
