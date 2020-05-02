@@ -1,0 +1,109 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Covid19 Dashboard - District </title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+
+
+
+</head>
+
+<body>
+	<div class="container">
+		<h2>Covid-19 Dashboard (India)</h2>
+	
+		<span id="datetime"></span></p>
+
+		<!-- <div class="jumbotron jumbotron-fluid">
+			<p class="lead">Total Cases</p> 
+			<div class="row">
+  				<div class="col-sm-3">Total Cases
+  				<h1 class="display-4" th:text=${totalCases.confirmed}></h1>
+  				</div>
+  				<div class="col-sm-3">Recovered
+  				<h1 class="display-4" th:text=${totalCases.recovered}></h1>
+  				</div>
+  				<div class="col-sm-3">Active
+  				<h1 class="display-4" th:text=${totalCases.active}></h1>
+  				</div> 
+  				<div class="col-sm-3">Reported Today
+  				<h1 class="display-4" th:text=${totalCases.deltaconfirmed}></h1>
+  				</div>
+			</div>
+			
+					
+		</div> -->
+
+
+		<table class="table-striped" id="myDataTable">
+		<thead>
+			<tr>
+				<th scope="col">District</th>
+				<th scope="col">Confirmed</th>
+				<th scope="col">Active</th>
+				<th scope="col">Deaths</th>
+				<th scope="col">Recovered</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr th:each="districtData : ${districtsData}">
+				 <td th:text="${districtData.districtName}"></td>
+				 <td th:text="${districtData.confirmed}"></td>
+				 <td th:text="${districtData.active}"></td> 
+				<td th:text="${districtData.deceased}"></td>
+				<td th:text="${districtData.recovered}"></td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+	 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	
+	<script type="text/javascript" src="https:////cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var table = $('#myDataTable').DataTable({
+				"lengthMenu" : [ 10, 25, 50 ],
+				"pageLength" : 100,
+				"lengthChange": false,
+				"order" : [ 1, "desc" ]
+			});
+		});
+	</script>
+
+
+
+<!-- <script>
+var dt = new Date();
+document.getElementById("datetime").innerHTML = dt.toLocaleString();
+</script> -->
+
+<script>
+document.getElementById("datetime").innerHTML = formatAMPM();
+
+function formatAMPM() {
+var d = new Date(),
+    minutes = d.getMinutes().toString().length == 1 ? '0'+d.getMinutes() : d.getMinutes(),
+    hours = d.getHours().toString().length == 1 ? '0'+d.getHours() : d.getHours(),
+    ampm = d.getHours() >= 12 ? 'PM' : 'AM',
+    months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+return days[d.getDay()]+' '+months[d.getMonth()]+' '+d.getDate()+' '+d.getFullYear()+' '+hours+':'+minutes+ ' ' +ampm;
+}
+
+</script>
+
+
+
+
+
+
+</body>
+
+</html>
