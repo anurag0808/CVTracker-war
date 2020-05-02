@@ -12,7 +12,7 @@
 
 <body>
 	<div class="container">
-		<h2>Covid-19 Dashboard (India)</h2>
+		<h1>Covid-19 Dashboard (India)</h1>
 	
 		<span id="datetime"></span></p>
 
@@ -20,16 +20,16 @@
 		<!-- 	<p class="lead">Total Cases</p>  -->
 			<div class="row">
   				<div class="col-sm-3">Total Cases
-  				<h1 class="display-4" th:text=${totalCases.confirmed}></h1>
+  				<h1 class="display-5" th:text=${totalCases.confirmed}></h1>
   				</div>
   				<div class="col-sm-3">Recovered
-  				<h1 class="display-4" th:text=${totalCases.recovered}></h1>
+  				<h1 class="display-5" th:text=${totalCases.recovered}></h1>
   				</div>
   				<div class="col-sm-3">Active
-  				<h1 class="display-4" th:text=${totalCases.active}></h1>
+  				<h2 class="display-5" th:text=${totalCases.active}></h2>
   				</div> 
   				<div class="col-sm-3">Reported Today
-  				<h1 class="display-4" th:text=${totalCases.deltaconfirmed}></h1>
+  				<h2 class="display-5" th:text=${totalCases.deltaconfirmed}></h2>
   				</div>
 			</div>
 			
@@ -50,10 +50,17 @@
 			</thead>
 			<tbody>
 			<tr th:each="stateData : ${statesData}">
-				<td th:text="${stateData.state}"></td>
+				<!--  <a th:href="/@{'/getStateData/'+ ${stateData.sateCode}}"> <td th:text="${stateData.state}">	</td> </a> -->
+				   <td>
+				   
+				   <a href="#" th:href="@{/getStateDistrictData(stateName=${stateData.state})}" th:text="${stateData.state}" target="_blank" />
+				  <!--  <a href="details.html" th:href="@{/order/details(orderId=${o.id})}">view</a> -->
+				 <!--   <a href="#" th:href="@{https://www.youtube.com/watch?v=qecdyMGas1c}" th:text="${stateData.state}" target="_blank" /> -->
+				   </td>
+				 
 				<td th:text="${stateData.confirmed}"></td>
 				<td th:text="${stateData.deltaconfirmed}"></td>
-				<td th:text="${stateData.active}"></td>
+				<td th:text="${stateData.active}"></td> 
 				<td th:text="${stateData.deaths}"></td>
 				<td th:text="${stateData.recovered}"></td>
 			</tr>
@@ -99,6 +106,10 @@ return days[d.getDay()]+' '+months[d.getMonth()]+' '+d.getDate()+' '+d.getFullYe
 }
 
 </script>
+
+
+
+
 
 
 </body>
