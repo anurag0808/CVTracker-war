@@ -1,13 +1,14 @@
 package com.kushwaha.Covid19Tracker.service;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
+import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
 
@@ -29,10 +30,12 @@ public class Covid19DataService {
 	private List<StateData> stateDataList = new ArrayList<StateData>();
 
 	private StateData totalCases;
-
+	
 	private List<StateData> stateDataWithoutTotal;
 
 	private Map<String, StateData> stateMap = new HashMap<String, StateData>();
+	
+	private String lastUpdated = null;
 
 	@PostConstruct
 	@Scheduled(cron = "0 */15 * * * *")
@@ -45,7 +48,8 @@ public class Covid19DataService {
 			JsonNode statesData = root.path("statewise");
 
 			List<StateData> stateDataLatest = new ArrayList<StateData>();
-
+			
+			
 			for (JsonNode node : statesData) {
 
 				StateData stateData = new StateData();
@@ -61,7 +65,7 @@ public class Covid19DataService {
 				stateData.setStateCode((node.path("statecode").asText()));
 
 				stateDataLatest.add(stateData);
-
+										
 				stateMap.put((node.path("statecode").asText()), (StateData) stateData);
 
 			}
@@ -69,6 +73,21 @@ public class Covid19DataService {
 			this.stateDataList = stateDataLatest;
 
 			this.totalCases = stateDataList.remove(0);
+			
+			System.out.println("Last updated !!!!!!!!!!!" + "" +  lastUpdatedTime());
+			
+			/*
+			 * int totalDelta = 0;
+			 * 
+			 * for (StateData state : stateDataList) {
+			 * 
+			 * int delta = Integer.parseInt(state.getDeltaconfirmed()); totalDelta =
+			 * totalDelta + delta;
+			 * 
+			 * }
+			 * 
+			 * System.out.println("Cases Reporte dtoday --------" + totalDelta);
+			 */
 
 		// this will give you remaining list after removing 1st element 
 		//	this.stateDataWithoutTotal = stateDataList.stream().skip(1).collect(Collectors.toList());
@@ -95,6 +114,62 @@ public class Covid19DataService {
 			e.printStackTrace();
 		}
 
+	}
+	
+	
+	public String lastUpdatedTime() {
+		
+		Date d1 = null;
+		Date d2 = null;
+		String minDiff = null;
+		String totalDiff= null;
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		formatter.setTimeZone(TimeZone.getTimeZone("IST"));
+		String currentDate =formatter.format(new Date());
+		
+		try {
+			
+			 d1= formatter.parse(totalCases.getLastupdatedtime());
+			 d2= formatter.parse(currentDate);
+			 
+			  long diff = d2.getTime() - d1.getTime();
+			  long hrsDiff = diff/(1000*60*24)%24;
+			  long 	minsDiff = diff/(1000*60)%60;
+			   		
+			  minDiff = String.valueOf(minsDiff);
+			  
+			  System.out.println("Difference Mili Secondsssssssss" + diff);
+			  
+			  System.out.println("Difference in hours >>>>>>>>>" + hrsDiff);
+			  
+			  
+			   	
+			   
+			   System.out.println("Last updated date from API"  + totalCases.getLastupdatedtime());
+			   System.out.println("Current date.........."  + currentDate);
+			  
+						  
+			  if(hrsDiff==0) {
+				  lastUpdated = minDiff + " " + "Minutes ago";
+				  System.out.println("Total Minutes Differece...IFIFIFIFFIFIFFIIF>>>> " +lastUpdated );
+				  return lastUpdated; 
+			  }else {
+				  totalDiff = hrsDiff + "hrs" + "," + minDiff + "mins";
+				 // lastUpdated = totalDiff;
+				  lastUpdated = minDiff + " " + "minutes ago";
+				  System.out.println("Total time Differece ELSE ELSE......>>>> " +totalDiff );
+				  return lastUpdated;
+			  }
+				  
+		
+			
+		
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return lastUpdated;		
 	}
 
 	public List<StateData> getStateDataList() {
@@ -127,6 +202,16 @@ public class Covid19DataService {
 
 	public void setStateDataWithoutTotal(List<StateData> stateDataWithoutTotal) {
 		this.stateDataWithoutTotal = stateDataWithoutTotal;
+	}
+
+
+	public String getLastUpdated() {
+		return lastUpdated;
+	}
+
+
+	public void setLastUpdated(String lastUpdated) {
+		this.lastUpdated = lastUpdated;
 	}
 
 }
