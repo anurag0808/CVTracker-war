@@ -11,14 +11,37 @@
 </head>
 
 <body>
-	<div class="container">
-		<h2>Covid-19 Dashboard (India)</h2>
-	
-		<span id="datetime"></span></p>
 
-		<!-- <div class="jumbotron jumbotron-fluid">
-			<p class="lead">Total Cases</p> 
-			<div class="row">
+
+
+
+
+	<div class="container">
+		<h2>Covid-19 Dashboard - District wise Statistics </h2>
+		
+		
+<div class="row">
+ 
+	 <div class="col-sm-6">
+  				<p><span id="datetime"></span></p>
+  				
+  		</div>	
+		<div class="col-sm-6">Last updated:
+  				<span th:text="${lastUpdated}">Minutes ago </span>
+</div>	
+  		
+  		
+</div>	
+		
+	
+	<!-- 	<span id="datetime"></span></p> -->
+
+		<div class="jumbotron jumbotron-fluid">
+				<div class="col-sm-6">
+  				<h2 class="display-5" th:text="${stateName}"></h2>
+  				</div>
+			<!-- <p class="lead" th:text="${stateName}">Total Cases </p>  -->
+			<!-- <div class="row">
   				<div class="col-sm-3">Total Cases
   				<h1 class="display-4" th:text=${totalCases.confirmed}></h1>
   				</div>
@@ -31,10 +54,10 @@
   				<div class="col-sm-3">Reported Today
   				<h1 class="display-4" th:text=${totalCases.deltaconfirmed}></h1>
   				</div>
-			</div>
+			</div> -->
 			
 					
-		</div> -->
+		</div>
 
 
 		<table class="table-striped" id="myDataTable">
