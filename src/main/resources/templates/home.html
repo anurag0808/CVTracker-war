@@ -14,7 +14,25 @@
 	<div class="container">
 		<h1>Covid-19 Dashboard (India)</h1>
 	
-		<span id="datetime"></span></p>
+		<!-- <p><span id="datetime"></span></p> -->
+	<!-- 	<p><span id="#"></span>Last Updated</p> -->
+		
+		<!-- <p><span id="lastUpdated" th:text="${lastUpdated}"></span> minutes ago</p> 
+ -->
+ 
+<div class="row">
+ 
+	 <div class="col-sm-6">
+  				<p><span id="datetime"></span></p>
+  				
+  		</div>	
+		<div class="col-sm-6">Last updated:
+  				<span th:text="${lastUpdated}">Minutes ago </span>
+</div>	
+  		
+  		
+</div>	
+
 
 		<div class="jumbotron jumbotron-fluid">
 		<!-- 	<p class="lead">Total Cases</p>  -->
